@@ -6,7 +6,7 @@ $id = filter_input(INPUT_GET, 'id');
 
 if ($id) {
 
-    $sql = $pdo->prepare("SELECT * FROM test.usuarios WHERE id = :id");
+    $sql = $pdo->prepare("SELECT * FROM test.users WHERE id = :id");
     $sql->bindValue(':id', $id);
     $sql->execute();
 
@@ -23,9 +23,9 @@ if ($id) {
     exit;
 }
 ?>
-<h1>Editar Usuário</h1>
+<h1>Update User</h1>
 
-<form method="POST" action="editar_action.php">
+<form method="POST" action="update_action.php">
     <input type="hidden" name="id" value="<?=$info['id'];?>" />
 
     <label>
@@ -38,5 +38,5 @@ if ($id) {
         <input type="email" name="email" value="<?= $info['email']; ?>"/>
     </label><br/><br/>
 
-    <input type="submit" value="Salvar"/>
+    <input type="submit" value="Update"/>
 </form>
