@@ -1,5 +1,6 @@
 <?php
 require_once 'models/User.php';
+require 'UserDAO.php';
 
 /**
  *  This class implements UserDAO interface,
