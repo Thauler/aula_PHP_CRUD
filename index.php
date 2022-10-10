@@ -1,34 +1,32 @@
 <?php
 require 'config.php';
+require 'dao/UserDAOMysql.php';
 
-$lista = [];
-$sql = $pdo->query("SELECT * FROM test.usuarios");
-if ($sql->rowCount() > 0) {
-    $lista = $sql->fetchAll(PDO::FETCH_ASSOC);
-}
+$userDao = new UserDAOMysql($pdo);
+$listAll = $userDao->findAll();
+
 ?>
-
-<a href="adicionar.php">ADICIONAR USUÁRIO</a>
+<a href="create.php">CREATE USER</a>
 
 <table border="1" width="100%">
     <tr>
         <th>ID</th>
         <th>NAME</th>
         <th>EMAIL</th>
-        <th>AÇÕES</th>
+        <th>ACTIONS</th>
     </tr>
-    <?php foreach ($lista as $usuario): ?>
+    <?php foreach ($listAll as $user): ?>
         <tr>
-            <td><?= $usuario['id']; ?></td>
-            <td><?= $usuario['name']; ?></td>
-            <td><?= $usuario['email']; ?></td>
+            <td><?= $user->getId(); ?></td>
+            <td><?= $user->getName(); ?></td>
+            <td><?= $user->getEmail(); ?></td>
             <td>
-                <a href="editar.php?id=<?= $usuario['id']; ?>">[ Editar ]</a>
-                <a
-                        href="delete.php?id=<?= $usuario['id']; ?>"
-                        onclick="return confirm('Tem certeza que quer excluir o usuario')">
-                    [ Excluir ]
-                </a>
+<!--                <a href="update.php?id=--><?//= $user['id']; ?><!--">[ Edit ]</a>-->
+<!--                <a-->
+<!--                        href="delete.php?id=--><?//= $user['id']; ?><!--"-->
+<!--                        onclick="return confirm('Are you sure?')">-->
+<!--                    [ Remove ]-->
+<!--                </a>-->
             </td>
         </tr>
     <?php endforeach; ?>
