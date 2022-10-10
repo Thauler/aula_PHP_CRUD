@@ -1,28 +1,31 @@
 <?php
 require 'config.php';
+require 'dao/UserDAOMysql.php';
+
+$userDao = new UserDAOMysql($pdo);
 
 $name = filter_input(INPUT_POST, 'name');
 $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
 
-if($name && $email) {
 
-    $sql = $pdo->prepare("SELECT * FROM test.users WHERE email = :email");
-    $sql->bindValue(':email', $email);
-    $sql->execute();
+$setNewUser = function (string $name, string $email) use ($userDao): void {
+    $user = new User();
+    $user->setName($name);
+    $user->setEmail($email);
 
-    if($sql->rowCount() === 0) {
-        $sql = $pdo->prepare("INSERT INTO test.users (name, email) VALUES (:name, :email)");
-        $sql->bindValue(':name', $name);
-        $sql->bindValue(':email', $email);
-        $sql->execute();
+    $userDao->create($user);
+};
 
+$emailChecker = $userDao->findByEmail($email) ?: $setNewUser($name, $email);
+
+if ($name && $email) {
+
+    if (!$emailChecker) {
         header("Location: index.php");
         exit;
-    } else {
-        header("Location: create.php");
-        exit;
+
     }
-} else {
     header("Location: create.php");
     exit;
+
 }
