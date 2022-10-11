@@ -99,7 +99,12 @@ class UserDAOMysql implements UserDAO
      */
     public function update(User $user): void
     {
-        // TODO: Implement update() method.
+        $sql = $this->pdo->prepare("UPDATE test.users SET name = :name, email = :email WHERE id = :id");
+        $sql->bindValue(':name', $user->getName());
+        $sql->bindValue(':email', $user->getEmail());
+        $sql->bindValue(':id', $user->getId());
+        $sql->execute();
+
     }
 
     /**
