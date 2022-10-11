@@ -114,7 +114,9 @@ class UserDAOMysql implements UserDAO
      */
     public function delete(int $id): void
     {
-        // TODO: Implement delete() method.
+        $sql = $this->pdo->prepare("DELETE FROM test.users WHERE id = :id");
+        $sql->bindValue(':id', $id);
+        $sql->execute();
     }
 
     /**
