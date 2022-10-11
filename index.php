@@ -21,12 +21,12 @@ $listAll = $userDao->findAll();
             <td><?= $user->getName(); ?></td>
             <td><?= $user->getEmail(); ?></td>
             <td>
-<!--                <a href="update.php?id=--><?//= $user['id']; ?><!--">[ Edit ]</a>-->
-<!--                <a-->
-<!--                        href="delete.php?id=--><?//= $user['id']; ?><!--"-->
-<!--                        onclick="return confirm('Are you sure?')">-->
-<!--                    [ Remove ]-->
-<!--                </a>-->
+                <a href="update.php?id=<?= $user->getId(); ?>">[ Edit ]</a>
+                <a
+                        href="delete.php?id=<?= $user->getId(); ?>"
+                        onclick="return confirm('Are you sure?')">
+                    [ Remove ]
+                </a>
             </td>
         </tr>
     <?php endforeach; ?>
