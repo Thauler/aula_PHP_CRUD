@@ -1,12 +1,13 @@
 <?php
 require 'config.php';
+require 'dao/UserDAOMysql.php';
+
+$userDao = new UserDAOMysql($pdo);
 
 $id = filter_input(INPUT_GET, 'id');
 if ($id) {
 
-    $sql = $pdo->prepare("DELETE FROM test.usuarios WHERE id = :id");
-    $sql->bindValue(':id', $id);
-    $sql->execute();
+    $userDao->delete($id);
 
 }
 
