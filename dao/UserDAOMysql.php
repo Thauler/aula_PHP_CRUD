@@ -71,7 +71,11 @@ class UserDAOMysql implements UserDAO
      */
     public function findById(int $id): User
     {
-        // TODO: Implement findById() method.
+        $sql = $this->pdo->prepare("SELECT * FROM test.users WHERE id = :id");
+        $sql->bindValue(':id', $id);
+        $sql->execute();
+
+        return $this->sqlRowChecker($sql);
     }
 
     /**
