@@ -88,17 +88,8 @@ class UserDAOMysql implements UserDAO
         $sql = $this->pdo->prepare("SELECT * FROM test.users WHERE email = :email");
         $sql->bindValue(':email', $email);
         $sql->execute();
-        if ($sql->rowCount() > 0) {
-            $data = $sql->fetch();
-            $user = new User();
-            $user->setId($data['id']);
-            $user->setName($data['name']);
-            $user->setEmail($data['email']);
 
-            return $user;
-        }
-
-        return false;
+        return $this->sqlRowChecker($sql);
     }
 
     /**
@@ -119,6 +110,28 @@ class UserDAOMysql implements UserDAO
     public function delete(int $id): void
     {
         // TODO: Implement delete() method.
+    }
+
+    /**
+     * This method checks if return anything from the query,
+     * and return a user or false if the row is empty.
+     *
+     * @param $sql PDOStatement
+     * @return false|User
+     */
+    private function sqlRowChecker(PDOStatement $sql)
+    {
+        if ($sql->rowCount() > 0) {
+            $data = $sql->fetch();
+            $user = new User();
+            $user->setId($data['id']);
+            $user->setName($data['name']);
+            $user->setEmail($data['email']);
+
+            return $user;
+        }
+
+        return false;
     }
 
 }
